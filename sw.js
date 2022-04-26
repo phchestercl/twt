@@ -34,7 +34,6 @@ self.addEventListener('install', e=>{
 
     e.waitUntil(Promise.all([cacheStatic,cacheInmutable]))
 })
-
 self.addEventListener('activate', e =>{
     const eliminacionCachesAntiguos = caches.keys().then(keys => {
         keys.forEach(key =>{
