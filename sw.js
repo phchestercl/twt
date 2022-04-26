@@ -6,8 +6,8 @@ const DYNAMIC_CACHE='dynamic-v1'
 console.log('Entro en el SW')
 const APP_SHEL=[
     //'/',
-    '/index.html',
-    '/css/style.css',
+    'index.html',
+    'css/style.css',
     'img/favicon.ico',
     'img/avatars/hulk.jpg',
     'img/avatars/ironman.jpg',
