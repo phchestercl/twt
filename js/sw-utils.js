@@ -1,14 +1,21 @@
-//Archivo Auxiliar del ServiceWorker
-function actualizaCacheDinamico(dynamicCache,request,response){
-    console.log('Entro a la funcion actualizaCacheDinamico')
-    if(response.ok){
-        console.log(`Response ok`)
-        caches.open(dynamicCache).then( cache => {
-            cache.put(request,response.clone())
-            return response.clone()
-        })
+// Guardar  en el cache dinamico
+function actualizaCacheDinamico( dynamicCache, req, res ) {
+
+
+    if ( res.ok ) {
+
+        return caches.open( dynamicCache ).then( cache => {
+
+            cache.put( req, res.clone() );
+            
+            return res.clone();
+
+        });
+
     } else {
-        console.log(response)
-        return response
+        return res;
     }
+
+
+
 }

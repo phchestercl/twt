@@ -34,37 +34,53 @@ self.addEventListener('install', e=>{
 
     e.waitUntil(Promise.all([cacheStatic,cacheInmutable]))
 })
-self.addEventListener('activate', e =>{
-    const eliminacionCachesAntiguos = caches.keys().then(keys => {
-        keys.forEach(key =>{
-            //
-            if (key!=STATIC_CACHE && key.includes('static')){
-                caches.delete(key)
+self.addEventListener('activate', e => {
 
+    const respuesta = caches.keys().then( keys => {
+
+        keys.forEach( key => {
+
+            if (  key !== STATIC_CACHE && key.includes('static') ) {
+                return caches.delete(key);
             }
-        })
-    })
 
-    e.waitUntil( eliminacionCachesAntiguos)
-})
-self.addEventListener('fetch',e=>{
-    //console.log('Peticion :>> '+e.request.url)
-    const respuesta=caches.match(e.request)
-    .then(res=>{
-        //console.log(e.request)
-        //console.log(res)
-        if (res){
-            //console(res)
-            return res
+            if (  key !== DYNAMIC_CACHE && key.includes('dynamic') ) {
+                return caches.delete(key);
+            }
+
+        });
+
+    });
+
+    e.waitUntil( respuesta );
+
+});
+
+
+
+
+self.addEventListener( 'fetch', e => {
+
+
+    const respuesta = caches.match( e.request ).then( res => {
+
+        if ( res ) {
+            return res;
         } else {
-            console.log('>>> no encontrada :'+e.request.url)
-            //console.log(res)
-            return fetch(e.request,/* {mode: 'no-cors'} */).then( newRes=>{
-                console.log(newRes)
-                return actualizaCacheDinamico(DYNAMIC_CACHE, e.request, newRes)
-            })
+
+            return fetch( e.request ).then( newRes => {
+
+                return actualizaCacheDinamico( DYNAMIC_CACHE, e.request, newRes );
+
+            });
+
         }
-    })
-    e.respondWith(respuesta)
-})
+
+    });
+
+
+
+    e.respondWith( respuesta );
+
+});
 
