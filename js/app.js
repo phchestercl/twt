@@ -1,5 +1,7 @@
 const url=window.location.href
+console.log(url)
 let swLocation ='/twt/sw.js'
+console.log(swLocation)
 // Registro de SW
 if( navigator.serviceWorker){
     if (url.includes('localhost')){
