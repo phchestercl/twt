@@ -1,6 +1,11 @@
+const url=window.location.href
+let swLocation ='/twt/sw.js'
 // Registro de SW
 if( navigator.serviceWorker){
-    navigator.serviceWorker.register('/sw.js')
+    if (url.includes('localhost')){
+        swLocation='/sw.js'
+    }
+    navigator.serviceWorker.register(swLocation)
 }
 
 // Referencias de jQuery
