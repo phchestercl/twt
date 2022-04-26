@@ -17,26 +17,22 @@ const APP_SHEL=[
     'js/app.js',
     'js/sw-utils.js'
 ]
-const APP_SHELL_INMUTABLE=[
+const APP_SHELL_INMUTABLE = [
     'https://fonts.googleapis.com/css?family=Quicksand:300,400',
     'https://fonts.googleapis.com/css?family=Lato:400,300',
     'https://use.fontawesome.com/releases/v5.3.1/css/all.css',
-    //'https://kit.fontawesome.com/7997b36988.js',
-    //'css/fa/all.css',
     'css/animate.css',
     'js/libs/jquery.js'
-]
+];
 self.addEventListener('install', e=>{
     console.log('Entró al install')
-    const cachesStatic= caches.open(STATIC_CACHE).then(
-        cache=>{
-            return cache.addAll(APP_SHEL)
-        }
-    )
-    const cacheInmutable= caches.open(INMUTABLE_CACHE)
-        .then(cache=> cache.addAll(APP_SHELL_INMUTABLE))
+    const cacheStatic = caches.open( STATIC_CACHE ).then(cache => 
+        cache.addAll( APP_SHELL ));
 
-    e.waitUntil(Promise.all([cachesStatic,cacheInmutable]))
+    const cacheInmutable = caches.open( INMUTABLE_CACHE ).then(cache => 
+        cache.addAll( APP_SHELL_INMUTABLE ));
+
+    e.waitUntil(Promise.all([cacheStatic,cacheInmutable]))
 })
 
 self.addEventListener('activate', e =>{
